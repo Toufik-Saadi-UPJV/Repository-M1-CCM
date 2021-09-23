@@ -28,3 +28,9 @@ isDone : false
 
 
 ---------------------------------
+
+
+
+# Exercice 
+
+Le code de l'exercice se trouve dans la classe main2
