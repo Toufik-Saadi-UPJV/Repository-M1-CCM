@@ -4,13 +4,32 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.time.LocalDateTime;
 
-public class Task {
+public class Task implements Runnable {
     private String label;
     private int priority;
     private LocalDateTime start_date;
     private boolean isDone;
+    private Thread predecesseur;
+
+    public Task() {
+    }
+
+    public void setPredecesseur(Thread predecesseur) {
+        this.predecesseur = predecesseur;
+    }
+
+    public Task(String name) {
+        this.label = name;
+    }
+
+    public Task(String name, Thread t) {
+        this(name);
+        predecesseur = t;
+    }
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
@@ -24,7 +43,7 @@ public class Task {
     public String toString() {
         return "Task : " + label + "\n" +
                 "priority : " + priority + "\n" +
-                "start_date : " + start_date + "\n"+
+                "start_date : " + start_date + "\n" +
                 "isDone : " + isDone + "\n\n";
     }
 
@@ -60,5 +79,17 @@ public class Task {
         boolean oldValue = this.isDone;
         this.isDone = newValue;
         this.pcs.firePropertyChange("isDone", oldValue, newValue);
+    }
+
+    @Override
+    public void run() {
+        if(predecesseur != null){
+            try {
+                predecesseur.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Je suis la tache : " + label + " et j'ai finis !");
     }
 }
