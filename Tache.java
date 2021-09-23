@@ -1,15 +1,13 @@
 package com.company;
 
-import java.util.Date;
-
-public class tache {
+public class Tache {
 
     protected int jour = 0;
     protected int priorite = 0;
     protected String libelle = "";
     protected boolean fait = false;
 
-    public tache(int date, int priorite, String libelle) {
+    public Tache(int date, int priorite, String libelle) {
         this.jour = date;
         this.priorite = priorite;
         this.libelle = libelle;
